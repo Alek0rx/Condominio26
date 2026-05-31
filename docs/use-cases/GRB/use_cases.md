@@ -234,7 +234,48 @@ Usuario, Administrador
 
 # CU-07 Actualizar Perfil
 
-(Contenido)
+## Descripción
+
+Permite al Usuario actualizar la información de su perfil en el sistema del condominio.
+
+## Actor Principal
+
+Usuario
+
+## Precondiciones
+
+- El Usuario ha iniciado sesión.
+- El Usuario posee una cuenta activa en el sistema.
+
+## Postcondiciones
+
+- La información del perfil del Usuario queda actualizada en el sistema
+
+## Escenario Básico
+
+1. El caso de uso comienza cuando el Usuario accede a la sección de configuración de perfil.
+2. El Sistema muestra la información actual del perfil.
+3. El Usuario modifica los datos que desea actualizar.
+4. El Sistema valida la información ingresada.
+5. El Usuario confirma la actualización del perfil.
+6. El Sistema registra los cambios realizados.
+7. El caso de uso termina cuando el Sistema muestra el mensaje "Perfil actualizado exitosamente".
+
+## Escenarios Alternos
+
+### A1. Datos inválidos
+
+1. El caso de uso comienza cuando el Usuario modifica la información de su perfil.
+2. El Sistema detecta que uno o más datos ingresados son inválidos.
+3. El Sistema muestra el mensaje "Los datos ingresados no son válidos".
+4. El caso de uso finaliza sin actualizar el perfil.
+
+### A2. Campos obligatorios vacíos
+
+1. El caso de uso comienza cuando el Usuario modifica la información de su perfil.
+2. El Sistema detecta que uno o más campos obligatorios están vacíos.
+3. El Sistema muestra el mensaje "Existen campos obligatorios vacíos".
+4. El caso de uso finaliza sin actualizar el perfil.
 
 ---
 
