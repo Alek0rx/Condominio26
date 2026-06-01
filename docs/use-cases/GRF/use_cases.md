@@ -89,3 +89,104 @@ Administrador
 - El sistema conserva el registro del mensaje global.
 
 ---
+# CU-04 Enviar Mensaje Directo
+
+## Descripción
+Permite enviar un mensaje directo a un usuario específico del condominio.
+
+## Actor Principal
+Administrador, Residente o Trabajador
+
+## Precondiciones
+- El usuario debe haber iniciado sesión.
+- El destinatario debe estar registrado en el sistema.
+
+## Flujo Principal
+1. El usuario ingresa al módulo de comunicación.
+2. Selecciona la opción de mensaje directo.
+3. Busca o selecciona al destinatario.
+4. Escribe el contenido del mensaje.
+5. El sistema valida el destinatario y el mensaje.
+6. El sistema envía el mensaje directo.
+7. El sistema registra el mensaje enviado.
+
+## Postcondiciones
+- El mensaje queda enviado al destinatario seleccionado.
+- El sistema guarda el historial del mensaje directo.
+
+---
+# CU-05 Crear Reporte de Comunicación
+
+## Descripción
+Permite al Administrador generar reportes sobre mensajes, comunicados y anuncios enviados dentro del condominio.
+
+## Actor Principal
+Administrador
+
+## Precondiciones
+- El Administrador debe haber iniciado sesión.
+- Deben existir registros de comunicación en el sistema.
+
+## Flujo Principal
+1. El Administrador ingresa al módulo de comunicación.
+2. Selecciona la opción de reportes.
+3. Define los filtros del reporte.
+4. El sistema consulta los registros de comunicación.
+5. El sistema genera el reporte.
+6. El Administrador visualiza o descarga el reporte.
+
+## Postcondiciones
+- El reporte queda generado.
+- El Administrador puede revisar la información de comunicación.
+
+---
+
+# CU-06 Modificar Anuncio General
+
+## Descripción
+Permite al Administrador modificar anuncios generales publicados previamente.
+
+## Actor Principal
+Administrador
+
+## Precondiciones
+- El Administrador debe haber iniciado sesión.
+- Debe existir un anuncio general publicado.
+
+## Flujo Principal
+1. El Administrador ingresa al módulo de comunicación.
+2. Selecciona la lista de anuncios generales.
+3. Elige el anuncio que desea modificar.
+4. Edita la información del anuncio.
+5. El sistema valida los cambios realizados.
+6. El sistema actualiza el anuncio general.
+
+## Postcondiciones
+- El anuncio general queda actualizado.
+- El sistema guarda los cambios realizados.
+
+---
+
+# CU-07 Eliminar Anuncio General
+
+## Descripción
+Permite al Administrador eliminar anuncios generales publicados previamente.
+
+## Actor Principal
+Administrador
+
+## Precondiciones
+- El Administrador debe haber iniciado sesión.
+- Debe existir un anuncio general publicado.
+
+## Flujo Principal
+1. El Administrador ingresa al módulo de comunicación.
+2. Selecciona la lista de anuncios generales.
+3. Elige el anuncio que desea eliminar.
+4. El sistema solicita confirmación.
+5. El Administrador confirma la eliminación.
+6. El sistema elimina el anuncio general.
+
+## Postcondiciones
+- El anuncio general queda eliminado.
+- El sistema actualiza la lista de anuncios disponibles.
