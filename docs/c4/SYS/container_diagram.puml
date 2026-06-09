@@ -1,0 +1,39 @@
+@startuml Sistema_Gestion_Condominio_Contenedores
+!include ../../libs/c4/C4_Context.puml
+!include ../../libs/c4/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Diagrama de Contenedores - Sistema de Gestión de Condominio
+
+' === PERSONAS / ACTORES ===
+Person(administrador, "Administrador", "Gestiona usuarios, inmuebles y comunicaciones.")
+Person(presidente, "Presidente", "Supervisa la administración del condominio.")
+Person(residente, "Residente", "Realiza pagos, reservas y recibe notificaciones.")
+Person(propietario, "Propietario", "Administra la información de sus inmuebles.")
+Person(personal_seguridad, "Personal de Seguridad", "Gestiona visitas y controla accesos.")
+
+' === SISTEMA EN FOCO (CONTENEDORES) ===
+System_Boundary(sistema_condominio, "Sistema de Gestión de Condominio") {
+    
+    Container(desktop_app, "Aplicación de Escritorio", "JavaFX", "Contiene los 6 módulos: Finanzas, usuarios, inmuebles, reservas, checkin y comunicación. Se instala en la PC del usuario.")
+    
+    ContainerDb(database, "Base de Datos", "MySQL", "Almacenamiento de los registros de deudas, residentes, inmuebles, etc.")
+}
+
+' === SISTEMAS EXTERNOS ===
+System_Ext(servicio_pagos, "Servicio de Pagos", "Pasarela externa para el procesamiento de transacciones financieras.")
+
+' === RELACIONES ===
+' Relaciones de los usuarios con la aplicación de escritorio
+Rel(administrador, desktop_app, "Administra el sistema", "UI")
+Rel(presidente, desktop_app, "Consulta información y recibe reportes", "UI")
+Rel(residente, desktop_app, "Gestiona pagos, reservas y perfil", "UI")
+Rel(propietario, desktop_app, "Gestiona propiedades", "UI")
+Rel(personal_seguridad, desktop_app, "Registra visitas y accesos", "UI")
+
+' Relaciones del contenedor principal con la BD y el servicio externo
+Rel(desktop_app, database, "Lee y escribe datos en", "SQL")
+Rel(desktop_app, servicio_pagos, "Envía solicitudes de pago a", "HTTPS / API")
+
+@enduml
