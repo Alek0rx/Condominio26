@@ -2,165 +2,261 @@
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
 
-' ==========================================
-' JERARQUÍA DE USUARIOS (ABSTRACTA)
-' ==========================================
-abstract class Usuario {
-    - idUsuario : int
-    - nombre : String
-    - correo : String
-    - telefono : String
-    
-    + {abstract} login()
-    + consultarDatos()
+'==================================================
+' FACHADA DEL MODULO (API)
+'==================================================
+
+interface IGestionInmueblesAPI{
++consultarPropiedades()
++consultarCatalogo()
++consultarReporteCambios()
++registrarCasoFortuito()
 }
 
-class Residente
-class Presidente
-class Administrador
+'==================================================
+' FACTORY
+'==================================================
 
-Usuario <|-- Residente
-Usuario <|-- Presidente
-Usuario <|-- Administrador
-
-' ==========================================
-' CLASE ABSTRACTA PADRE (INMUEBLE)
-' ==========================================
-abstract class Inmueble {
-    - idInmueble : int
-    - codigo : String
-    - estado : String
-    - disponibleAlquiler : boolean
-    - disponibleVenta : boolean
-
-    + {abstract} registrar()
-    + actualizarEstado()
-    + {abstract} consultar()
+interface InmuebleFactory{
++crearDepartamento():Departamento
++crearSuite():Suite
++crearSalonEventos():SalonDeEventos
++crearAreaRecreacional():AreaRecreacional
++crearParqueadero():Parqueadero
 }
 
-' ==========================================
-' CLASES HIJAS (Jerarquía de Inmueble)
-' ==========================================
-class Edificio {
-    - idEdificio : int
-    - nombre : String
-    - direccion : String
-    - numeroPisos : int
+class InmuebleFactoryImpl
 
-    + registrar()
-    + modificar()
-    + eliminar()
-    + consultar()
+InmuebleFactory <|.. InmuebleFactoryImpl
+
+'==================================================
+' ITERATOR
+'==================================================
+
+interface IteratorInmueble{
++hasNext():boolean
++next():Inmueble
 }
 
-class Departamento {
-    - numeroDepartamento : int
-    - piso : int
-    - nroHabitaciones : int
+class CatalogoIterator
+
+IteratorInmueble <|.. CatalogoIterator
+
+'==================================================
+' SINGLETON
+'==================================================
+
+class GestorPlazas <<Singleton>>{
+-instance:GestorPlazas
++getInstance()
++asignarPlaza()
++liberarPlaza()
 }
 
-class Suite {
-    - tieneBalcon : boolean
+'==================================================
+' CLASE ABSTRACTA PADRE
+'==================================================
+
+abstract class Inmueble{
+-idInmueble:int
+-codigo:String
+-estado:EstadoInmueble
+-areaMetrosCuadrados:double
+-descripcion:String
+
++{abstract} registrar()
++actualizarEstado()
++{abstract} consultar()
 }
 
-class EspacioComun {
-    - nombreEspacio : String
-    - reglamentoUso : String
+enum EstadoInmueble{
+DISPONIBLE
+OCUPADO
+EN_MANTENIMIENTO
+EN_REMODELACION
+VENDIDO
 }
 
-class Parqueadero {
-    - idParqueadero : int
-    - numero : String
-    - disponible : boolean
+'==================================================
+' HIJAS
+'==================================================
 
-    + registrar()
-    + consultar()
-    + actualizarDisponibilidad()
+class Departamento{
+-numeroDepartamento:int
+-piso:int
+-numeroHabitaciones:int
+-numeroBanos:int
+-disponibleAlquiler:boolean
+-disponibleVenta:boolean
 }
 
-' Relaciones de Herencia de Inmueble
-Inmueble <|-- Edificio
+class Suite{
+-numeroHabitaciones:int
+-numeroBanos:int
+-tieneBalcon:boolean
+-disponibleAlquiler:boolean
+-disponibleVenta:boolean
+}
+
+abstract class EspacioComun{
+#id:String
+#nombre:String
+#aforoMaximo:int
+
++estaDisponible()
+}
+
+class SalonDeEventos{
+-costoReserva:Double
+-requiereGarantia:boolean
+}
+
+class AreaRecreacional{
+-tipoCancha:String
+-requiereEquipamiento:boolean
+}
+
+class Parqueadero{
+-idParqueadero:int
+-nombre:String
+
++calcularPlazasDisponibles()
++consultarPlazas()
+}
+
+'==================================================
+' PLAZAS
+'==================================================
+
+abstract class Plaza{
+-numeroPlaza:String
+-disponible:boolean
+
++{abstract} verificarPermiso()
++obtenerTiempoMaximo()
+}
+
+class PlazaPropietario{
++verificarPermiso()
+}
+
+class PlazaVisita{
+-tiempoMaximo:int
+
++verificarPermiso()
+}
+
+'==================================================
+' COMPONENTES
+'==================================================
+
+class CatalogoCondominio{
+-idCatalogo:int
+-fechaActualizacion:Date
+-listaInmuebles:List<Inmueble>
+
++agregarInmueble()
++eliminarInmueble()
++actualizarCatalogo()
++consultarCatalogo()
++calcularCantidadPlazasVisita()
+
++createIterator():IteratorInmueble
+}
+
+class ReporteCambio{
+-idReporte:int
+-fechaGeneracion:Date
+-descripcionCambio:String
+
++registrarCambio()
++consultarReporte()
+}
+
+class Propiedad{
+-idPropiedad:int
+-enAlquiler:boolean
+-fechaRegistro:Date
+
++consultarPropiedad()
++actualizarPropietario()
++actualizarEstadoAlquiler()
+}
+
+class CasoFortuito{
+-idCaso:int
+-descripcion:String
+-fecha:Date
+-estado:EstadoCaso
+
++registrarCaso()
++actualizarCaso()
++cerrarCaso()
+}
+
+enum EstadoCaso{
+REPORTADO
+EN_PROCESO
+RESUELTO
+}
+
+'==================================================
+' HERENCIA
+'==================================================
+
 Inmueble <|-- Departamento
 Inmueble <|-- Suite
 Inmueble <|-- EspacioComun
 Inmueble <|-- Parqueadero
 
-' ==========================================
-' COMPONENTES Y GESTIÓN
-' ==========================================
-class CaracteristicaInmueble {
-    - idCaracteristica : int
-    - areaMetrosCuadrados : double
-    - numeroHabitaciones : int
-    - numeroBanos : int
-    - numeroParqueaderos : int
-    - descripcion : String
+EspacioComun <|-- SalonDeEventos
+EspacioComun <|-- AreaRecreacional
 
-    + registrarCaracteristicas()
-    + modificarCaracteristicas()
-    + consultarCaracteristicas()
-}
+Plaza <|-- PlazaPropietario
+Plaza <|-- PlazaVisita
 
-class CatalogoCondominio {
-    - idCatalogo : int
-    - fechaActualizacion : Date
+'==================================================
+' COMPOSICION
+'==================================================
 
-    + agregarInmueble()
-    + eliminarInmueble()
-    + actualizarCatalogo()
-    + consultarCatalogo()
-}
+Parqueadero "1" *-- "0..*" Plaza
 
-class ReporteCambio {
-    - idReporte : int
-    - fechaGeneracion : Date
-    - tipoCambio : String
-    - descripcionCambio : String
+'==================================================
+' RELACIONES
+'==================================================
 
-    + registrarCambio()
-    + generarReporte()
-    + consultarReporte()
-}
+CatalogoCondominio "1" o-- "*" Inmueble
 
-class Propiedad {
-    - idPropiedad : int
-    - enAlquiler : boolean
-    - fechaRegistro : Date
+Inmueble --> EstadoInmueble
 
-    + consultarPropiedad()
-    + consultarResidentes()
-    + actualizarEstadoAlquiler()
-}
+CasoFortuito --> EstadoCaso
 
-class CasoFortuito {
-    - idCaso : int
-    - tipo : String
-    - descripcion : String
-    - fecha : Date
-    - estado : String
-
-    + registrarCaso()
-    + actualizarCaso()
-    + cerrarCaso()
-}
-
-class Notificacion {
-    - idNotificacion : int
-    - mensaje : String
-}
-
-' ==========================================
-' DISPOSICIÓN DE RELACIONES
-' ==========================================
-CatalogoCondominio "1" o-right- "*" Inmueble
-Inmueble "1" *-- "1" CaracteristicaInmueble
 Inmueble "1" --> "*" ReporteCambio
+
 Inmueble "1" --> "*" CasoFortuito
 
-CasoFortuito "1" --> "*" Notificacion
-
 Propiedad "*" --> "1" Inmueble
-Propiedad "*" --> "1" Usuario
-Propiedad "1" --> "*" Residente
+
+PlazaPropietario "*" --> "1" Propiedad
+
+'==================================================
+' RELACIONES PATRONES
+'==================================================
+
+CatalogoCondominio --> IteratorInmueble : createIterator()
+
+InmuebleFactoryImpl ..> Departamento : crea
+InmuebleFactoryImpl ..> Suite : crea
+InmuebleFactoryImpl ..> SalonDeEventos : crea
+InmuebleFactoryImpl ..> AreaRecreacional : crea
+InmuebleFactoryImpl ..> Parqueadero : crea
+
+GestorPlazas --> Plaza
+GestorPlazas --> Parqueadero
+
+IGestionInmueblesAPI ..> CatalogoCondominio
+IGestionInmueblesAPI ..> Propiedad
+IGestionInmueblesAPI ..> ReporteCambio
+IGestionInmueblesAPI ..> CasoFortuito
 
 @enduml
