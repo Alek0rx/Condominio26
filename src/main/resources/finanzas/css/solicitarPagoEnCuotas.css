@@ -23,10 +23,6 @@
     -fx-text-fill: #2b2b2b;
 }
 
-.section-icon {
-    -fx-icon-color: #a4203a;
-}
-
 .module-card {
     -fx-background-color: white;
     -fx-background-radius: 6;
@@ -39,10 +35,7 @@
     -fx-font-weight: bold;
 }
 
-.module-card .text-field,
-.module-card .combo-box,
-.module-card .date-picker,
-.module-card .date-picker > .text-field {
+.module-card .text-field {
     -fx-pref-height: 34px;
     -fx-background-radius: 4;
 }
@@ -125,9 +118,4 @@
     -fx-text-fill: #2b2b2b;
     -fx-font-weight: bold;
     -fx-font-size: 13px;
-}
-
-.config-scroll,
-.config-scroll .viewport {
-    -fx-background-color: transparent;
 }
