@@ -175,13 +175,14 @@
                                     <children>
                                         <Label styleClass="module-section-title" text="Entidades registradas"/>
                                         <TableView fx:id="tablaEntidades" prefHeight="220.0"
-                                                   maxWidth="1.7976931348623157E308">
+                                                   maxWidth="1.7976931348623157E308"
+                                                   tableMenuButtonVisible="false">
                                             <columns>
-                                                <TableColumn fx:id="colNombreEntidad" prefWidth="200.0" text="Entidad"/>
-                                                <TableColumn fx:id="colNumeroCuenta" prefWidth="160.0" text="N.° cuenta"/>
-                                                <TableColumn fx:id="colTipoCuenta" prefWidth="120.0" text="Tipo"/>
-                                                <TableColumn fx:id="colCedulaTitular" prefWidth="140.0" text="Cédula titular"/>
-                                                <TableColumn fx:id="colCorreoTitular" prefWidth="220.0" text="Correo titular"/>
+                                                <TableColumn fx:id="colNombreEntidad" prefWidth="200.0" reorderable="false" text="Entidad"/>
+                                                <TableColumn fx:id="colNumeroCuenta" prefWidth="160.0" reorderable="false" text="N.° cuenta"/>
+                                                <TableColumn fx:id="colTipoCuenta" prefWidth="120.0" reorderable="false" text="Tipo"/>
+                                                <TableColumn fx:id="colCedulaTitular" prefWidth="140.0" reorderable="false" text="Cédula titular"/>
+                                                <TableColumn fx:id="colCorreoTitular" prefWidth="220.0" reorderable="false" text="Correo titular"/>
                                             </columns>
                                         </TableView>
                                     </children>
