@@ -232,6 +232,7 @@
 /* Estado de visita programada */
 .badge-programada { -fx-background-color: rgba(63, 152, 39, 0.75); }
 .badge-cancelada  { -fx-background-color: rgba(223, 39, 39, 0.75); }
+.badge-realizada { -fx-background-color: rgb(195, 156, 27); }
 
 /* Prioridad de alerta */
 .badge-baja     { -fx-background-color: rgba(107, 114, 128, 0.85); }
