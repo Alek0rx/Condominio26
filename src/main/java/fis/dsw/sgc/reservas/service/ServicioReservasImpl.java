@@ -3,13 +3,12 @@ package fis.dsw.sgc.reservas.service;
 import fis.dsw.sgc.conexion_bd.DBConnection;
 import fis.dsw.sgc.finanzas.dto.NuevaDeudaDTO;
 import fis.dsw.sgc.finanzas.service.IFachadaParaReservas;
-import fis.dsw.sgc.reservas.dao.EspacioReservableDAOSQLite;
-import fis.dsw.sgc.reservas.dao.IEspacioReservableDAO;
+import fis.dsw.sgc.inmuebles.service.IInmueblesService;
 import fis.dsw.sgc.reservas.dao.IObservacionReservaDAO;
 import fis.dsw.sgc.reservas.dao.IReservaDAO;
 import fis.dsw.sgc.reservas.dao.ObservacionReservaDAOSQLite;
 import fis.dsw.sgc.reservas.dao.ReservaDAOSQLite;
-import fis.dsw.sgc.reservas.dto.EspacioReservableDTO;
+import fis.dsw.sgc.inmuebles.dto.EspacioReservableDTO;
 import fis.dsw.sgc.reservas.dto.ObservacionReservaDTO;
 import fis.dsw.sgc.reservas.dto.ReservaDTO;
 import fis.dsw.sgc.reservas.model.EstadoReserva;
@@ -35,7 +34,7 @@ public class ServicioReservasImpl implements IServicioReservas {
 
     private final IReservaDAO reservaDAO;
     private final IObservacionReservaDAO observacionDAO;
-    private final IEspacioReservableDAO espacioDAO;
+    private IInmueblesService servicioInmuebles;
 
     // Conexion con el modulo de Finanzas (opcional; inyectada desde Main).
     private IFachadaParaReservas fachadaFinanzas;
@@ -49,23 +48,26 @@ public class ServicioReservasImpl implements IServicioReservas {
         return instancia;
     }
 
-    /** Constructor por defecto: cablea los DAO SQLite del modulo. */
     public ServicioReservasImpl() {
         this(new ReservaDAOSQLite(),
              new ObservacionReservaDAOSQLite(),
-             new EspacioReservableDAOSQLite(),
+             null,
              null);
     }
 
     /** Constructor completo para inyeccion de dependencias (tests / Main). */
     public ServicioReservasImpl(IReservaDAO reservaDAO,
                                 IObservacionReservaDAO observacionDAO,
-                                IEspacioReservableDAO espacioDAO,
+                                IInmueblesService servicioInmuebles,
                                 IFachadaParaReservas fachadaFinanzas) {
         this.reservaDAO = reservaDAO;
         this.observacionDAO = observacionDAO;
-        this.espacioDAO = espacioDAO;
+        this.servicioInmuebles = servicioInmuebles;
         this.fachadaFinanzas = fachadaFinanzas;
+    }
+
+    public void setServicioInmuebles(IInmueblesService servicioInmuebles) {
+        this.servicioInmuebles = servicioInmuebles;
     }
 
     /** Permite a Main inyectar la fachada de Finanzas despues de construir el servicio. */
@@ -124,7 +126,10 @@ public class ServicioReservasImpl implements IServicioReservas {
 
     @Override
     public List<EspacioReservableDTO> listarEspaciosDisponibles() {
-        return espacioDAO.listarDisponibles();
+        if (servicioInmuebles != null) {
+            return servicioInmuebles.listarEspaciosReservables();
+        }
+        return new ArrayList<>();
     }
 
     // ==================================================================
@@ -147,7 +152,10 @@ public class ServicioReservasImpl implements IServicioReservas {
 
         // 2) Tarifa vigente del espacio (copia del costo al momento de reservar).
         int costoCentavos = 0;
-        EspacioReservableDTO espacio = espacioDAO.buscarPorId(idEspacioComun);
+        EspacioReservableDTO espacio = null;
+        if (servicioInmuebles != null) {
+            espacio = servicioInmuebles.buscarEspacioReservablePorId(idEspacioComun);
+        }
         if (espacio != null) {
             costoCentavos = espacio.getCostoReservaCentavos();
         }

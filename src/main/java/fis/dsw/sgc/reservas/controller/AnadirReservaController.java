@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 
-import fis.dsw.sgc.reservas.dto.EspacioReservableDTO;
+import fis.dsw.sgc.inmuebles.dto.EspacioReservableDTO;
 import fis.dsw.sgc.reservas.model.Reserva;
 import fis.dsw.sgc.reservas.service.IServicioReservas;
 import fis.dsw.sgc.reservas.service.ServicioReservasImpl;
