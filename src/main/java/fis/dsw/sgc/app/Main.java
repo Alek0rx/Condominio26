@@ -15,6 +15,10 @@ public class Main extends Application {
         fis.dsw.sgc.finanzas.service.IFachadaParaReservas fachada = new fis.dsw.sgc.finanzas.service.FachadaParaReservasImpl(deudaService);
         fis.dsw.sgc.reservas.service.ServicioReservasImpl.getInstancia().setFachadaFinanzas(fachada);
 
+        fis.dsw.sgc.inmuebles.dao.IInmuebleDAO inmuebleDAO = new fis.dsw.sgc.inmuebles.dao.InmuebleDAOMySQL();
+        fis.dsw.sgc.inmuebles.service.IInmueblesService servicioInmuebles = new fis.dsw.sgc.inmuebles.service.InmueblesServiceImpl(inmuebleDAO);
+        fis.dsw.sgc.reservas.service.ServicioReservasImpl.getInstancia().setServicioInmuebles(servicioInmuebles);
+
         Parent root = FXMLLoader.load(getClass().getResource("/administracion/fxml/login.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("Sistema de Gestión Para Condominio");

@@ -1,6 +1,6 @@
 package fis.dsw.sgc.reservas.controller;
 
-import fis.dsw.sgc.reservas.dto.EspacioReservableDTO;
+import fis.dsw.sgc.inmuebles.dto.EspacioReservableDTO;
 import fis.dsw.sgc.reservas.model.EstadoReserva;
 import fis.dsw.sgc.reservas.model.Reserva;
 import fis.dsw.sgc.reservas.service.IServicioReservas;
